@@ -11,6 +11,13 @@ class Customer extends Model
 
     protected $table = 'customer';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = ['name', 'phone'];
+
     protected $appends = ['country', 'country_code'];
 
     public function getCountryAttribute()
