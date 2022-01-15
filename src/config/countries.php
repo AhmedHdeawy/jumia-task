@@ -1,11 +1,15 @@
 <?php
 return [
-    'Cameroon'      =>  237,
-    'Ethiopia'      =>  237,
-    'Morocco'       =>  237,
-    'Mozambique'    =>  237,
-    'Uganda'        =>  237
 
+    'codes' => [
 
-    // You Can Append Extra Countries Code here
+        'Cameroon'      =>  237,
+        'Ethiopia'      =>  251,
+        'Morocco'       =>  212,
+        'Mozambique'    =>  258,
+        'Uganda'        =>  256
+
+        // You Can Append Extra Countries Code here
+
+    ]
 ];
