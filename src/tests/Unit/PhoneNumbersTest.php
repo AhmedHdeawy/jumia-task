@@ -2,16 +2,20 @@
 
 namespace Tests\Unit;
 
+use App\Models\Customer;
 use Tests\TestCase;
 
 
 class PhoneNumbersTest extends TestCase
 {
 
-    public function testFetchAllPhones()
+    public function testFetchAllPhoneNumbers()
     {
-        $this->getJson(route('api.phone-numbers.list'))
-            ->assertStatus(200)
+        $allCustomersCount = Customer::all()->count();
+
+        $response = $this->getJson(route('api.phone-numbers.list'));
+
+        $response->assertStatus(200)
             ->assertJsonStructure([
                 'status', 'message',
                 'data'  =>  [
@@ -20,10 +24,12 @@ class PhoneNumbersTest extends TestCase
                     ]
                 ]
             ]);
+
+        $this->assertEquals($allCustomersCount, $response['data']['total']);
     }
 
 
-    public function testFetchPhonesWithSpecificCountry()
+    public function testFetchPhoneNumbersWithSpecificCountry()
     {
         $params = [
             'country'  =>  'Mozambique'
@@ -43,7 +49,7 @@ class PhoneNumbersTest extends TestCase
             ]);
     }
     
-    public function testFetchPhonesWithOKState()
+    public function testFetchPhoneNumbersWithOKState()
     {
         $params = [
             'state'  =>  'OK'
@@ -63,7 +69,7 @@ class PhoneNumbersTest extends TestCase
             ]);
     }
 
-    public function testFetchPhonesWithNOKState()
+    public function testFetchPhoneNumbersWithNOKState()
     {
         $params = [
             'state'  =>  'NOK'
@@ -83,7 +89,7 @@ class PhoneNumbersTest extends TestCase
             ]);
     }
     
-    public function testFetchPhonesWithSpecificPerPage()
+    public function testFetchPhoneNumbersWithSpecificPerPage()
     {
         $perPage = 7;
         $params = [
@@ -95,6 +101,20 @@ class PhoneNumbersTest extends TestCase
         $response->assertStatus(200)->assertJsonStructure(['status', 'message','data']);
 
         $this->assertEquals($perPage, count($response['data']['data']));
+    }
+    
+    public function testFetchPhoneNumbersWithSpecificPaginationPage()
+    {
+        $page = 3;
+        $params = [
+            'page'  =>  $page
+        ];
+
+        $response = $this->getJson(route('api.phone-numbers.list', $params));
+        
+        $response->assertStatus(200)->assertJsonStructure(['status', 'message','data']);
+
+        $this->assertEquals($page, $response['data']['current_page']);
     }
 
     /**
