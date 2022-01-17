@@ -30,7 +30,7 @@ class ApiController extends Controller
         $data = $request->only(['country', 'state', 'perPage', 'page']);
         
         $customers = $this->customerRepositiory->search($data);
-
+        
         $response = $this->paginate(CustomerResource::collection($customers));
         
         return $this->successJsonResponse(200, "Data Returned Successfully", $response);
