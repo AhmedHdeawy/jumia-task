@@ -12,6 +12,15 @@ Dockerfile if necessary. When ready, simply use the Dockerfile to
 build the image.
 
 ```sh
+cd jumia-task
+```
+
+```sh
+cp .env.example .env && composer install && npm install
+```
+
+
+```sh
 docker-compose up --build
 ```
 
@@ -21,6 +30,8 @@ your preferred browser.
 ```sh
 localhost:8080
 ```
+
+[![N|Solid](https://i.imgur.com/0BhHY8U.png)](https://i.imgur.com/0BhHY8U.png)
 
 ## Postman Collection
 
@@ -34,6 +45,7 @@ php artisan test
 ```
 
 [![N|Solid](https://i.imgur.com/Qy7QOLZ.png)](https://nodesource.com/products/nsolid)
+
 
 ## License
 
