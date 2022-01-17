@@ -22,7 +22,7 @@ class CustomerRepositiory
         $customers = $this->applyFilters($customers, $data);
 
         $customers = $customers->get();
-
+        
         // Apply Appends Filters
         return $this->applyAppendsFilters($customers, $data);
     }
@@ -54,8 +54,8 @@ class CustomerRepositiory
         if (isset($data['country']) && !empty($data['country']) ) {
             $collection = $collection->where('country', '=',  $data['country'] );
         }
-
-        return $collection;
+        // dd($collection->values());
+        return $collection->values();
     }
 
     private function modelClass()
