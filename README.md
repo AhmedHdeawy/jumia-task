@@ -23,8 +23,13 @@ cp .env.example .env && composer install && npm install && cd ../
 ```sh
 docker-compose up --build
 ```
+Download Sample Database from this link [Sqlite DB](https://drive.google.com/file/d/1JQlpJz_-Y-5FY6cn9OvhUngVclaMlyAE/view?usp=sharing), and copy it to this directory:
 
-Verify the server running by navigating to your server address in
+```sh
+/jumia-task/src/database
+```
+
+Finally, Verify the server running by navigating to your server address in
 your preferred browser.
 
 ```sh
