@@ -1,0 +1,29 @@
+version: "3.7"
+
+networks: 
+  jumia-task:
+
+services: 
+  nginx:
+    image: nginx
+    container_name: jumia_nginx
+    ports: 
+      - "8080:80"
+    volumes: 
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on: 
+      - php
+    networks: 
+      - jumia-task
+  php:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: jumia_php
+    volumes: 
+      - ./src:/var/www/html
+    ports: 
+      - "9000:9000"
+    networks: 
+      - jumia-task
