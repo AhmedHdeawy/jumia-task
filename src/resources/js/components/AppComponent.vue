@@ -47,7 +47,7 @@
               </div>
             </section>
 
-            <section v-if="data != null">
+            <section v-if="items != null">
               <table class="table table-striped table-hover table-bordered">
                 <thead>
                   <tr>
@@ -58,7 +58,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="phone in data" :key="phone.id">
+                  <tr v-for="phone in items" :key="phone.id">
                     <th>{{ phone.country }}</th>
                     <th>{{ phone.state }}</th>
                     <th>{{ phone.country_code }}</th>
@@ -70,19 +70,13 @@
           </div>
 
           <div class="card-footer">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <li class="page-item">
-                  <a class="page-link" href="#">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
-                </li>
-              </ul>
-            </nav>
+            <pagination
+              v-model="current_page"
+              :records="total"
+              :per-page="per_page"
+              :options="options"
+              @paginate="callbackPagination"
+            />
           </div>
         </div>
       </div>
@@ -91,13 +85,27 @@
 </template>
 
 <script>
+import Pagination from "vue-pagination-2";
 export default {
+  components: {
+    Pagination,
+  },
   data() {
     return {
-      data: null,
+      items: null,
       countries: null,
       countryChoosed: "",
       state: "",
+      current_page: 1,
+      total: 0,
+      per_page: 10,
+      options: {
+          theme: 'bootstrap4',
+          edgeNavigation: true,
+          texts: {
+              count: "Showing page {page} out of {pages}"
+          }
+      }
     };
   },
   mounted() {
@@ -105,7 +113,7 @@ export default {
   },
   created() {
     this.fetchCountries();
-    this.fetchData();
+    this.fetchData({perPage: this.per_page});
   },
   methods: {
     fetchData(params = null) {
@@ -114,7 +122,11 @@ export default {
           params,
         })
         .then((res) => {
-          this.data = res.data.data.data;
+          this.items = res.data.data.data;
+          this.total = res.data.data.total;
+          this.per_page = Number(res.data.data.per_page);
+          this.current_page = res.data.data.current_page;
+          this.last_page = res.data.data.last_page;
         })
         .catch((err) => {
           alert("Error Happened");
@@ -136,6 +148,7 @@ export default {
       const params = {
         country: this.countryChoosed,
         state: this.state,
+        perPage: this.per_page
       };
 
       this.fetchData(params);
@@ -146,6 +159,18 @@ export default {
       this.state = "";
 
       this.fetchData();
+    },
+
+    callbackPagination(page) {
+      this.current_page = page;
+      const params = {
+        country: this.countryChoosed,
+        state: this.state,
+        page,
+        perPage: this.per_page
+      };
+
+      this.fetchData(params);
     },
   },
 };
