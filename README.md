@@ -12,11 +12,11 @@ Dockerfile if necessary. When ready, simply use the Dockerfile to
 build the image.
 
 ```sh
-cd jumia-task
+cd jumia-task/src
 ```
 
 ```sh
-cp .env.example .env && composer install && npm install
+cp .env.example .env && composer install && npm install && cd ../
 ```
 
 
