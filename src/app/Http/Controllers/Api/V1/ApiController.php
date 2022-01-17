@@ -35,4 +35,17 @@ class ApiController extends Controller
         
         return $this->successJsonResponse(200, "Data Returned Successfully", $response);
     }
+
+
+    /**
+     * @param Request $request
+     * 
+     * @return JsonResponse
+     */
+    public function countriesList(Request $request)
+    {
+        $countriesCode = config('countries.codes');
+        
+        return $this->successJsonResponse(200, "Data Returned Successfully", $countriesCode);
+    }
 }
